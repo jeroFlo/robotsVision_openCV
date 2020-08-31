@@ -32,11 +32,11 @@ def main():
 
     args, img_mask = getopt.getopt(sys.argv[1:], '', ['debug=', 'square_size=', 'threads='])
     args = dict(args)
-    args.setdefault('--debug', './output/')
+    args.setdefault('--debug', '../../../calibrate/output/')
     args.setdefault('--square_size', 1.0)
     args.setdefault('--threads', 4)
     if not img_mask:
-        img_mask = '../data/left??.jpg'  # default
+        img_mask = '../../../calibrate/dataset/IMG_????.JPG'  # default
     else:
         img_mask = img_mask[0]
 
@@ -90,7 +90,7 @@ def main():
         from multiprocessing.dummy import Pool as ThreadPool
         pool = ThreadPool(threads_num)
         chessboards = pool.map(processImage, img_names)
-
+    
     chessboards = [x for x in chessboards if x is not None]
     for (corners, pattern_points) in chessboards:
         img_points.append(corners)
@@ -102,6 +102,8 @@ def main():
     print("\nRMS:", rms)
     print("camera matrix:\n", camera_matrix)
     print("distortion coefficients: ", dist_coefs.ravel())
+    print("rotation vector: ", _rvecs)
+    print("translation vector: ", _tvecs)
 
     # undistort the image with the calibration
     print('')

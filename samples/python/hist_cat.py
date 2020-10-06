@@ -54,14 +54,19 @@ def hist_lines(im):
 
 def binary(im, threshold = 127):
     im = cv.cvtColor(im,cv.COLOR_BGR2GRAY)
-    np.where(im < threshold, 0, 255)
-    return im
+    #print(im)
+    #th1= np.where(im < threshold, 0, 255)
+    # global thresholding
+    ret1,th1 = cv.threshold(im,127,255,cv.THRESH_BINARY)
+    #print(th1)
+    return th1
 
 def main():
     import sys
 
     if len(sys.argv)>1:
         fname = sys.argv[1]
+        #../../../practice_1_2_fft/resources/gato_2.jpg
     else :
         fname = 'lena.jpg'
         print("usage : python hist.py <image_file>")
